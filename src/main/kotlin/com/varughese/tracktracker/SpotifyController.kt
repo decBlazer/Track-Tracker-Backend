@@ -27,7 +27,7 @@ class SpotifyController {
         val entity = HttpEntity<String>(headers)
         val restTemplate = RestTemplate()
         val response = restTemplate.exchange(
-            "$spotifyApiUrl/v1/playlists/{playlist_id}/tracks",
+            "$spotifyApiUrl/v1/playlists/69fEt9DN5r4JQATi52sRtq/tracks", // The Sound of Everything (Spotify Playlist)
             HttpMethod.GET,
             entity,
             String::class.java
