@@ -7,7 +7,8 @@ import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
-import java.util.Base64
+import java.util.*
+
 
 @Service
 class SpotifyService(
@@ -42,6 +43,23 @@ class SpotifyService(
         val entity = HttpEntity<String>(headers)
 
         val response = restTemplate.exchange<Map<String, Any>>("$apiBaseUrl/tracks/$trackId", HttpMethod.GET, entity)
+        return response.body
+    }
+
+    fun getUserData(accessToken: String): String? {
+        val url = "https://api.spotify.com/v1/me"
+
+        val headers = HttpHeaders()
+        headers.add("Authorization", "Bearer $accessToken")
+
+        val request = HttpEntity<String>(headers)
+
+        val restTemplate = RestTemplate()
+        val response = restTemplate.getForEntity(
+            url,
+            String::class.java, request
+        )
+
         return response.body
     }
 }
