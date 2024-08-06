@@ -23,6 +23,7 @@ class SpotifyController(
 
     @GetMapping("/random-songs")
     fun getRandomSongs(@AuthenticationPrincipal principal: OidcUser): ResponseEntity<String> {
+        println("Received request for random songs")
         val accessToken = principal.idToken.tokenValue
         val headers = HttpHeaders().apply {
             setBearerAuth(accessToken)

@@ -1,5 +1,6 @@
 package com.varughese.tracktracker.data
 
+
 data class Track(
     val name: String,
     val artists: List<Artist>
@@ -15,4 +16,12 @@ data class PlaylistResponse(
 
 data class TrackWrapper(
     val track: Track
+)
+
+@Entity
+data class User(
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0,
+    val username: String,
+    val email: String
 )

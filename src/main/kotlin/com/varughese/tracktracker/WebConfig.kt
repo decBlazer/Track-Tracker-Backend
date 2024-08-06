@@ -35,7 +35,7 @@ class WebConfig : WebMvcConfigurer {
             .cors { cors ->
                 cors.configurationSource {
                     val source = CorsConfiguration()
-                    source.allowedOrigins = listOf("http://localhost:3000") // React app url
+                    source.allowedOrigins = listOf("http://localhost:3000", "http://localhost:8080", "https://localhost:8443") // React app url
                     source.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
                     source.allowedHeaders = listOf("*")
                     source
@@ -43,15 +43,15 @@ class WebConfig : WebMvcConfigurer {
             }
             .authorizeHttpRequests { requests ->
                 requests
+                    .requestMatchers("/random-songs").permitAll() // Ensure this is permitted
                     .requestMatchers("/api/**").authenticated()
-                    .requestMatchers("/", "/home", "/search", "/loginpage", "/index.html", "/static/**", "/favicon.ico", "/manifest.json", "/logo192.png").permitAll()
+                    .requestMatchers("/", "/home", "/search", "/login", "/index.html", "/static/**", "/favicon.ico", "/manifest.json", "/logo192.png").permitAll()
                     .anyRequest().authenticated()
             }
-            .formLogin { form ->
-                form
-                    .loginPage("/loginpage")
-                    .defaultSuccessUrl("/home", true)
-                    .permitAll()
+            .oauth2Login { oauth2 ->
+                oauth2
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/", true)
             }
             .logout { logout ->
                 logout
@@ -62,7 +62,7 @@ class WebConfig : WebMvcConfigurer {
             .exceptionHandling { exceptions ->
                 exceptions
                     .authenticationEntryPoint { request, response, authException ->
-                        response.sendRedirect("/loginpage")
+                        response.sendRedirect("/login")
                     }
             }
 

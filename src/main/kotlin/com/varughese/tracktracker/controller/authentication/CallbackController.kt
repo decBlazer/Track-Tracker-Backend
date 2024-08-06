@@ -15,10 +15,10 @@ import java.util.*
 
 @Controller
 class SpotifyCallbackController {
-    @Value("\${spotify.client-id}")
+    @Value("\${spring.security.oauth2.client.registration.spotify.client-id}")
     private val clientId: String? = null
 
-    @Value("\${spotify.client-secret}")
+    @Value("\${spring.security.oauth2.client.registration.spotify.client-secret}")
     private val clientSecret: String? = null
 
     @Value("\${spotify.redirect-uri}")

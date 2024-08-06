@@ -12,8 +12,8 @@ import java.util.*
 
 @Service
 class SpotifyService(
-    @Value("\${spotify.client-id}") private val clientId: String,
-    @Value("\${spotify.client-secret}") private val clientSecret: String,
+    @Value("\${spring.security.oauth2.client.registration.spotify.client-id}") private val clientId: String,
+    @Value("\${spring.security.oauth2.client.registration.spotify.client-secret}") private val clientSecret: String,
     @Value("\${spotify.token-uri}") private val tokenUri: String,
     @Value("\${spotify.api-base-url}") private val apiBaseUrl: String
 ) {
