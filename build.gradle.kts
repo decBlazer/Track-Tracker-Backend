@@ -3,7 +3,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     id("com.netflix.dgs.codegen") version "6.2.1"
     id("org.graalvm.buildtools.native") version "0.10.2"
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "2.0.0"
     kotlin("plugin.spring") version "1.9.24"
     kotlin("plugin.jpa") version ("1.8.0")
 }
@@ -54,6 +54,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
+    implementation("se.michaelthelin.spotify:spotify-web-api-java:8.4.1")
+    implementation("com.adamratzman:spotify-api-kotlin-core:4.1.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
 }
 
 dependencyManagement {

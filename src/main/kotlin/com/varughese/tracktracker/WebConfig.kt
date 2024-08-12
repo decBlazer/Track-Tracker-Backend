@@ -33,18 +33,11 @@ class WebConfig : WebMvcConfigurer {
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .cors { cors ->
-                cors.configurationSource {
-                    val source = CorsConfiguration()
-                    source.allowedOrigins = listOf("http://localhost:3000", "http://localhost:8080", "https://localhost:8443") // React app url
-                    source.allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
-                    source.allowedHeaders = listOf("*")
-                    source
-                }
-            }
+            cors.configurationSource(corsConfigurationSource())
+        }
             .authorizeHttpRequests { requests ->
                 requests
                     .requestMatchers("/random-songs").permitAll() // Ensure this is permitted
-                    .requestMatchers("/api/**").authenticated()
                     .requestMatchers("/", "/home", "/search", "/login", "/index.html", "/static/**", "/favicon.ico", "/manifest.json", "/logo192.png").permitAll()
                     .anyRequest().authenticated()
             }
@@ -71,12 +64,11 @@ class WebConfig : WebMvcConfigurer {
 
     @Bean
     fun userDetailsService(): UserDetailsService {
-        val user =
-            User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build()
+        val user = User.builder()
+            .username("user")
+            .password(passwordEncoder().encode("password"))
+            .roles("USER")
+            .build()
 
         return InMemoryUserDetailsManager(user)
     }
@@ -87,26 +79,14 @@ class WebConfig : WebMvcConfigurer {
     }
 
     @Bean
-    fun corsConfigurer(): WebMvcConfigurer {
-        return object : WebMvcConfigurer {
-            override fun addCorsMappings(registry: CorsRegistry) {
-                registry
-                    .addMapping("/**")
-                    .allowedOrigins("http://localhost:3000") // Adjust to match your frontend URL
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    .allowedHeaders("*")
-                    .allowCredentials(true)
-            }
-        }
-    }
-
-    @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.allowedOrigins = mutableListOf("*")
-        configuration.allowedMethods = mutableListOf("*")
-        configuration.allowedHeaders = mutableListOf("*")
-        val source: UrlBasedCorsConfigurationSource = UrlBasedCorsConfigurationSource()
+        val configuration = CorsConfiguration().apply {
+            allowedOrigins = listOf("http://localhost:3000") // React app URL
+            allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+            allowedHeaders = listOf("*")
+            allowCredentials = true
+        }
+        val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
         return source
     }
