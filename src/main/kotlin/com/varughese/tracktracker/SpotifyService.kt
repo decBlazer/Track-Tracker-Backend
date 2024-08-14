@@ -40,10 +40,10 @@ class SpotifyService(
         token = spotifyApi.token
     }
 
-    @GetMapping("/search")
+
     suspend fun searchTracks(query: String) = spotifyApi.search.searchTrack(query)
-    @GetMapping("/track/{id}")
-    suspend fun getTrack(id: String) = spotifyApi.tracks.getTrack(id)
-    @GetMapping("/playlist/{id}")
+
+    suspend fun getSong(id: String) = spotifyApi.tracks.getTrack(id)
+
     suspend fun getPlaylist(id: String) = spotifyApi.playlists.getPlaylist(id)
 }

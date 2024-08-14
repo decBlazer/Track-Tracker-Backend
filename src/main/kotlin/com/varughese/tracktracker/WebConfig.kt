@@ -37,7 +37,7 @@ class WebConfig : WebMvcConfigurer {
         }
             .authorizeHttpRequests { requests ->
                 requests
-                    .requestMatchers("/random-songs").permitAll() // Ensure this is permitted
+                    .requestMatchers("/random-songs", "/song/{id}", "/search/{query}").permitAll() // Ensure this is permitted
                     .requestMatchers("/", "/home", "/search", "/login", "/index.html", "/static/**", "/favicon.ico", "/manifest.json", "/logo192.png").permitAll()
                     .anyRequest().authenticated()
             }

@@ -1,15 +1,11 @@
 package com.varughese.tracktracker.data
 
+import com.adamratzman.spotify.models.Track
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
-
-data class Track(
-    val name: String,
-    val artists: List<Artist>
-)
 
 data class Artist(
     val name: String
