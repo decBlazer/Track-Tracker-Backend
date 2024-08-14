@@ -14,7 +14,8 @@ data class TrackInfo(
     val name: String,
     val artist: String,
     val album: String,
-    val artwork: String
+    val artwork: String,
+    val popularity: Double
 )
 
 @RestController
@@ -25,16 +26,17 @@ class SpotifyController(private val spotifyService: SpotifyService) {
         return try {
             // Fetch search results
             val result = spotifyService.searchTracks(query)
-            val tracks = result?.items ?: emptyList()
+            val tracks = result.items
 
             // Map the tracks to TrackInfo
             val trackInfos = tracks.map { track ->
                 TrackInfo(
-                    id = track.id ?: "unknown_id",
-                    name = track.name ?: "Unknown Title",
-                    artist = track.artists?.joinToString(", ") { it.name ?: "Unknown Artist" } ?: "Unknown Artist",
-                    album = track.album?.name ?: "Unknown Album",
-                    artwork = track.album?.images?.firstOrNull()?.url ?: "No Artwork Available"
+                    id = track.id,
+                    name = track.name,
+                    artist = track.artists.joinToString(", ") { it.name ?: "Unknown Artist" },
+                    album = track.album.name,
+                    artwork = track.album.images?.firstOrNull()?.url ?: "No Artwork Available",
+                    popularity = track.popularity
                 )
             }
 
@@ -65,7 +67,8 @@ class SpotifyController(private val spotifyService: SpotifyService) {
                 name = track?.name ?: "Unknown Title",
                 artist = track?.artists?.joinToString(", ") { it.name ?: "Unknown Artist" } ?: "Unknown Artist",
                 album = track?.album?.name ?: "Unknown Album",
-                artwork = track?.album?.images?.firstOrNull()?.url ?: "No Artwork Available"
+                artwork = track?.album?.images?.firstOrNull()?.url ?: "No Artwork Available",
+                popularity = track?.popularity ?: 0.0
             )
 
             ResponseEntity.ok(trackInfo)
@@ -77,7 +80,8 @@ class SpotifyController(private val spotifyService: SpotifyService) {
                     name = "Error",
                     artist = "Error",
                     album = "Error",
-                    artwork = "No Artwork Available"
+                    artwork = "No Artwork Available",
+                    popularity = 0.0
                 )
             )
         }
@@ -91,20 +95,16 @@ class SpotifyController(private val spotifyService: SpotifyService) {
             val tracks = playlist?.tracks?.items
 
             if (!tracks.isNullOrEmpty()) {
-                // Shuffle and select 4 random tracks, or less if fewer than 4 tracks available
                 val randomTracks = tracks.shuffled().take(4).map { it.track }
 
-                // Create a list of track information
                 val trackInfos = randomTracks.map { track ->
-                    val trackName = track?.asTrack?.name ?: "Unknown Title"
-                    val artistNames = track?.asTrack?.artists?.joinToString(", ") { artist: SimpleArtist -> artist.name.toString() } ?: "Unknown Artist"
-                    val artworkUrl = track?.asTrack?.album?.images?.firstOrNull()?.url ?: "No artwork available"
                     TrackInfo(
                         id = track?.id ?: "unknown_id",
-                        name = trackName,
-                        artist = artistNames,
+                        name = track?.asTrack?.name ?: "Unknown Title",
+                        artist = track?.asTrack?.artists?.joinToString(", ") { artist: SimpleArtist -> artist.name.toString() } ?: "Unknown Artist",
                         album = track?.asTrack?.album?.name ?: "Unknown Album",
-                        artwork = artworkUrl
+                        artwork = track?.asTrack?.album?.images?.firstOrNull()?.url ?: "No artwork available",
+                        popularity = track?.asTrack?.popularity ?: 0.0
                     )
                 }
 
