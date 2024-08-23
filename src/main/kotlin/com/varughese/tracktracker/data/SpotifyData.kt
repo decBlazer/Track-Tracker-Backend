@@ -5,6 +5,9 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import java.time.LocalDateTime
+
+
 
 
 data class Artist(
@@ -20,9 +23,19 @@ data class TrackWrapper(
 )
 
 @Entity
+
 data class User(
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     val id: Long = 0,
+
     val username: String,
-    val email: String
+
+    val email: String,
+
+    val passwordHash: String,
+
+    val createdAt: LocalDateTime = LocalDateTime.now()
+
 )
