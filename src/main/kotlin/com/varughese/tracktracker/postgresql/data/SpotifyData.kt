@@ -1,10 +1,11 @@
-package com.varughese.tracktracker.data
+package com.varughese.tracktracker.postgresql.data
 
 import com.adamratzman.spotify.models.Track
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import lombok.Data
 import java.time.LocalDateTime
 
 
@@ -23,11 +24,10 @@ data class TrackWrapper(
 )
 
 @Entity
-
+@Data
 data class User(
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    @Id
     val id: Long = 0,
 
     val username: String,
