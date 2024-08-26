@@ -41,7 +41,7 @@ out/
 
 src/main/resources/application.properties
 
-compose.yaml
+docker-compose.yaml
 
 src/main/resources/keystore.jks
 

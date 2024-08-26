@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -41,10 +42,22 @@ class WebConfig : WebMvcConfigurer {
                     .requestMatchers("/", "/home", "/search", "/login", "/index.html", "/static/**", "/favicon.ico", "/manifest.json", "/logo192.png").permitAll()
                     .anyRequest().authenticated()
             }
+            .sessionManagement { session ->
+
+                session
+
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+
+                    .maximumSessions(1)
+
+                    .expiredUrl("/login?expired=true")
+
+            }
             .oauth2Login { oauth2 ->
                 oauth2
                     .loginPage("/login")
-                    .defaultSuccessUrl("/", true)
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/login?error=true")
             }
             .logout { logout ->
                 logout

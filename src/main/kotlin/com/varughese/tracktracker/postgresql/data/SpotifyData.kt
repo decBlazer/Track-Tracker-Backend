@@ -5,7 +5,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import lombok.Data
 import java.time.LocalDateTime
 
 
@@ -23,12 +22,16 @@ data class TrackWrapper(
     val track: Track
 )
 
+
 @Entity
-@Data
+
 data class User(
 
-    @Id
-    val id: Long = 0,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    val id: String,
+
+    val spotifyId: String,
 
     val username: String,
 

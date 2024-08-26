@@ -22,20 +22,13 @@ import com.varughese.tracktracker.postgresql.service.UserService
 class ApiController(private val userService: UserService) {
 
 
-    @GetMapping("/login")
-
-    fun getLoginData(): ResponseEntity<String> {
-
-        return ResponseEntity.ok("Login data")
-
-    }
-
-
     @PostMapping("/register")
 
-    fun registerUser(@RequestBody user: User): ResponseEntity<String> {
+    fun registerUser(@RequestHeader("Authorization") accessToken: String): ResponseEntity<String> {
 
-        userService.registerUser(user.username, user.email, user.passwordHash)
+        val token = accessToken.removePrefix("Bearer ")
+
+        userService.registerUser(token)
 
         return ResponseEntity.ok("User registered successfully")
 
