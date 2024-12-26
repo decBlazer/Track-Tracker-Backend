@@ -60,7 +60,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.postgresql:postgresql:42.7.2")
-    implementation("org.springframework.session:spring-session-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 }
 

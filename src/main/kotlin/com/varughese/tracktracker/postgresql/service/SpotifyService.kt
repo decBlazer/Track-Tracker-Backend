@@ -1,19 +1,11 @@
-package com.varughese.tracktracker
+package com.varughese.tracktracker.postgresql.service
 
 import com.adamratzman.spotify.*
 import com.adamratzman.spotify.models.Token
 import jakarta.annotation.PostConstruct
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.client.RestTemplate
-import org.springframework.web.client.exchange
-import org.springframework.web.reactive.function.client.WebClient
 import kotlinx.coroutines.runBlocking
-import java.util.*
 
 
 @Service
